@@ -1,0 +1,60 @@
+export const productField = [
+  {
+    label: "Product title",
+    name: "title",
+    type: "text",
+    placeholder: "Enter Product Name",
+    rules: "Product Name is required",
+  },
+  {
+    label: "Sell Price",
+    name: "sell_price",
+    type: "number",
+    placeholder: "Enter Sell Price",
+    rules: "Sell Price is required",
+  },
+  {
+    label: "Buy Price",
+    name: "buy_price",
+    type: "number",
+    placeholder: "Enter Buy Price",
+    rules: "",
+  },
+  {
+    label: "Flat Discount",
+    name: "flat_discount",
+    type: "number",
+    placeholder: "Enter Product Flat Discount",
+    rules: "",
+  },
+  {
+    label: "Product Rating",
+    name: "rating",
+    type: "number",
+    placeholder: "Enter Product Rating",
+    rules: "",
+    min:1,
+    max:5
+  },
+  {
+    label: "Product Refundable Day",
+    name: "is_refundable_product_day",
+    type: "number",
+    placeholder: "Enter Product Refundable Day",
+    rules: "",
+  },
+  {
+    label: "Product Stock Quantity",
+    name: "stock_qty",
+    type: "number",
+    placeholder: "Enter Stock Quantity",
+    rules: "",
+  },
+  {
+    label: "Product Tax price",
+    name: "tax_price",
+    type: "number",
+    placeholder: "Enter Tax Price",
+    rules: "",
+  },
+]
