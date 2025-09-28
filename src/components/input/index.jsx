@@ -426,6 +426,83 @@ export const Checkbox = ({ name, control, label, rules }) => {
 };
 
 // image upload field
+// export const ImageUpload = (props) => {
+//   const {
+//     field: { onChange, onBlur, value },
+//     fieldState: { error },
+//   } = useController({
+//     name: props.name,
+//     control: props.control,
+//     rules: {
+//       required: props.required ? "Image is required" : false,
+//       validate: (file) => {
+//         if (!file && props.required) return "Image is required";
+//         return (
+//           !file || file.size < 2 * 1024 * 1024 || "File must be less than 2MB"
+//         );
+//       },
+//     },
+//     defaultValue: props.defaultValue || null,
+//   });
+
+//   const [preview, setPreview] = useState(
+//     value ? URL.createObjectURL(value) : props.defaultValue || null
+//   );
+
+//   const handleFileChange = (event) => {
+//     const file = event.target.files[0];
+//     if (file) {
+//       onChange(file);
+//       setPreview(URL.createObjectURL(file)); // Show file preview
+//       props.onUpload?.(file); // Callback for additional handling
+//     }
+//   };
+//   return (
+//     <div className="flex flex-col space-y-1">
+//       <span className="text-sm   text-gray-500 flex gap-1">
+//         {props?.label}{" "}
+//         <span className="text-white">{props?.rules?.required ? "*" : ""}</span>
+//       </span>
+//       <div className="relative border rounded-md w-full cursor-pointer bg-white">
+//         <input
+//           type="file"
+//           accept="image/*"
+//           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+//           onBlur={onBlur}
+//           onChange={handleFileChange}
+//         />
+//         <div className="flex items-center space-x-2 cursor-pointer">
+//           {preview ? (
+//             <img
+//               src={preview}
+//               alt="Preview"
+//               className="h-12 w-12 object-cover rounded-md cursor-pointer"
+//             />
+//           ) : (
+//             <div className="h-12 w-12 flex items-center justify-center bg-gray-200 rounded-md cursor-pointer">
+//               {props?.imgUrl ? (
+//                 <img
+//                   src={`${process.env.REACT_APP_BASE_API}${props?.imgUrl}`}
+//                   alt="loading"
+//                   className="h-12 w-12 object-cover rounded-md cursor-pointer"
+//                 />
+//               ) : (
+//                 "📷"
+//               )}
+//             </div>
+//           )}
+//           <span className="text-gray-700">Click to upload</span>
+//         </div>
+//       </div>
+//       {props?.error && (
+//         <p className="text-xs text-red-500 pl-3.5">{props?.error}</p>
+//       )}
+//     </div>
+//   );
+// };
+
+// global image uploadd file
+
 export const ImageUpload = (props) => {
   const {
     field: { onChange, onBlur, value },
@@ -458,16 +535,17 @@ export const ImageUpload = (props) => {
     }
   };
   return (
+    
     <div className="flex flex-col space-y-1">
-      <span className="text-sm   text-gray-500 flex gap-1">
+      <span className="text-sm mb- text-gray-500 flex gap-1">
         {props?.label}{" "}
         <span className="text-white">{props?.rules?.required ? "*" : ""}</span>
       </span>
-      <div className="relative border rounded-md w-full cursor-pointer bg-white">
+      <div className="relative  rounded-md w-full cursor-pointer  border bg-lightCard dark:bg-darkCard border-lightBorder  dark:border-darkBorder">
         <input
           type="file"
           accept="image/*"
-          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer "
           onBlur={onBlur}
           onChange={handleFileChange}
         />
@@ -476,27 +554,30 @@ export const ImageUpload = (props) => {
             <img
               src={preview}
               alt="Preview"
-              className="h-12 w-12 object-cover rounded-md cursor-pointer"
+              className="h-12 w-12 object-cover rounded-md cursor-pointer "
             />
           ) : (
-            <div className="h-12 w-12 flex items-center justify-center bg-gray-200 rounded-md cursor-pointer">
+            <div className="h-12 w-12 flex items-center justify-center  rounded-md cursor-pointer bg-gray-200 dark:bg-black">
               {props?.imgUrl ? (
                 <img
                   src={`${process.env.REACT_APP_BASE_API}${props?.imgUrl}`}
                   alt="loading"
-                  className="h-12 w-12 object-cover rounded-md cursor-pointer"
+                  className="h-12 w-12 object-cover rounded-md cursor-pointer "
                 />
               ) : (
                 "📷"
               )}
             </div>
           )}
-          <span className="text-gray-700">Click to upload</span>
+          <span className="text-gray-700 dark:text-gray-300 ">
+            Click to upload
+          </span>
         </div>
       </div>
       {props?.error && (
-        <p className="text-xs text-red-500 pl-3.5">{props?.error}</p>
+        <p className="text-xs text-red-500 pl-3.5 ">{props?.error}</p>
       )}
     </div>
   );
 };
+

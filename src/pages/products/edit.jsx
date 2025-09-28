@@ -23,9 +23,12 @@ export const ProductEdit = () => {
   const [loading, setLoading] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [multiImages, setMultiImages] = useState([]);
+  const [existingImages, setExistingImages] = useState([]);
   const [categoryList, setCategoryData] = useState([]);
   const [brandList, setBrandList] = useState([]);
   const [product, setProduct] = useState({});
+
+  console.log("product", product);
   const {
     control,
 
@@ -38,6 +41,12 @@ export const ProductEdit = () => {
       status: 0,
     },
   });
+
+  useEffect(() => {
+    if (product?.gallery_image?.length > 0) {
+      setExistingImages(product.gallery_image);
+    }
+  }, [product]);
   //   single product fetch
   const fetchData = useCallback(
     async (product) => {
@@ -63,10 +72,20 @@ export const ProductEdit = () => {
   }, []);
 
   //   multi state set in multisetate
+  // const handleMultiImageChange = (e) => {
+  //   const files = Array.from(e.target.files);
+  //   if (files.length > 0) {
+  //     setMultiImages(files);
+  //   }
+  // };
   const handleMultiImageChange = (e) => {
     const files = Array.from(e.target.files);
     if (files.length > 0) {
-      setMultiImages(files);
+      const imagePreviews = files.map((file) => ({
+        file,
+        preview: URL.createObjectURL(file),
+      }));
+      setMultiImages(imagePreviews);
     }
   };
   //   fetch category
@@ -117,21 +136,23 @@ export const ProductEdit = () => {
     fetchBrandList();
     fetchDataForUnit();
   }, []);
-  /* submit reosurce */ 
+  /* submit reosurce */
   const onSubmit = async (data) => {
     try {
       setButtonLoading(true);
       const formData = new FormData();
-      formData.append("title", data?.title); 
-      formData.append("description", data?.description); 
-      formData.append("sell_price", data?.sell_price); 
-      formData.append("category_id", data?.category_id); 
-      formData.append("rating", data?.rating); 
-      formData.append("tax_price", data?.tax_price); 
-      formData.append("buy_price", data?.buy_price); 
-      formData.append("stock_qty", data?.stock_qty);  
-      formData.append("flat_discount", data?.flat_discount);  
-      formData.append("status", data?.status);  
+      formData.append("title", data?.title);
+      formData.append("description", data?.description);
+      formData.append("specification", data?.specification); // Other form fields
+      formData.append("short_description", data?.short_description); // Other form fields
+      formData.append("sell_price", data?.sell_price);
+      formData.append("category_id", data?.category_id);
+      formData.append("rating", data?.rating);
+      formData.append("tax_price", data?.tax_price);
+      formData.append("buy_price", data?.buy_price);
+      formData.append("stock_qty", data?.stock_qty);
+      formData.append("flat_discount", data?.flat_discount);
+      formData.append("status", data?.status);
       formData.append(
         "low_stock_quantity_warning",
         data?.low_stock_quantity_warning
@@ -147,7 +168,7 @@ export const ProductEdit = () => {
       formData.append("_method", "PUT"); //
       multiImages &&
         multiImages.forEach((image, index) => {
-          formData.append(`gallery_image[${index}]`, image);  
+          formData.append(`gallery_image[${index}]`, image);
         });
       const response = await NetworkServices.Product.update(id, formData);
       if (response && (response.status === 201 || response?.status === 200)) {
@@ -163,6 +184,8 @@ export const ProductEdit = () => {
   // product field for update value added
   useEffect(() => {
     setValue("description", product?.description);
+    setValue("specification", product?.specification);
+    setValue("short_description", product?.short_description);
     setValue("title", product?.title);
     setValue("sell_price", product?.sell_price);
     setValue("category_id", product?.category_id);
@@ -180,6 +203,13 @@ export const ProductEdit = () => {
   //   set decription
   const handleQuillChange = (content) => {
     setValue("description", content); // Update form state
+  };
+
+  const handleQuillChange1 = (content) => {
+    setValue("short_description", content); // Update form state
+  };
+  const handleQuillChange2 = (content) => {
+    setValue("specification", content); // Update form state
   };
   console.log(product);
   return (
@@ -257,6 +287,27 @@ export const ProductEdit = () => {
               </div>
             </div>
 
+            {/* short description field  */}
+
+            <div className="mb-6 lg:mb-2">
+              <p className="text-sm mb-1 text-gray-500">
+                Product Short Description
+              </p>
+              <div className="quill-wrapper   rounded-lg border border-gray-300 overflow-hidden">
+                <ReactQuill
+                  onChange={handleQuillChange1}
+                  placeholder="Write your description..."
+                  className="w-full overflow-y-auto h-32 bg-white rounded-md"
+                  value={product?.short_description}
+                />
+                {errors?.description && (
+                  <p className="text-red-500 mt-1">
+                    {errors.description.message}
+                  </p>
+                )}
+              </div>
+            </div>
+
             {/* description field  */}
 
             <div className="mb-6 lg:mb-2">
@@ -279,6 +330,28 @@ export const ProductEdit = () => {
               </div>
             </div>
 
+            {/* specification field  */}
+
+            <div className="mb-6 lg:mb-2">
+              <p className="text-sm mb-1 text-gray-500">
+                Product specification
+                {/* <span className="text-red-500">*</span> */}
+              </p>
+              <div className="quill-wrapper   rounded-lg border border-gray-300 overflow-hidden">
+                <ReactQuill
+                  onChange={handleQuillChange2}
+                  placeholder="Write your description..."
+                  className="w-full overflow-y-auto h-72 bg-white rounded-md"
+                  value={product?.specification}
+                />
+                {errors?.specification && (
+                  <p className="text-red-500 mt-1">
+                    {errors.specification.message}
+                  </p>
+                )}
+              </div>
+            </div>
+
             {/* image area coide  */}
             <div className="space-y-2">
               {/* thumbnail image  */}
@@ -289,13 +362,15 @@ export const ProductEdit = () => {
                   label="Thumbnail Image"
                   error={errors?.singleImage && errors?.singleImage.message}
                   rules={{ required: "please insert image" }}
+                  imgUrl={product?.thumbnail_image}
+                  onUpload={(file) => setValue("thumbnail_image", file)}
                 />
               </div>
               {/* gallary iamge  */}
-              <div className="mb-6 lg:mb-2 w-full">
+              {/* <div className="mb-6 lg:mb-2 w-full">
                 <p className="text-sm mb-1 text-gray-500">
                   Gallary Image
-                  {/* <span className="text-red-500">*</span> */}
+                  
                 </p>
                 <input
                   type="file"
@@ -304,6 +379,48 @@ export const ProductEdit = () => {
                   onChange={handleMultiImageChange}
                   className="file-input file-input-bordered file-input-info w-full  "
                 />
+              </div> */}
+              <div className="mb-6 lg:mb-2 w-full">
+                <p className="text-sm mb-1 text-gray-500">Gallery Image</p>
+
+                {/* file input */}
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  onChange={handleMultiImageChange}
+                  className="file-input file-input-bordered file-input-info w-full"
+                />
+
+                {/* existing images */}
+                {existingImages.length > 0 && (
+                  <div className="mt-3 grid grid-cols-2 md:grid-cols-4 gap-3">
+                    {existingImages.map((url, index) => (
+                      <div key={index} className="relative">
+                        <img
+                          src={url}
+                          alt={`existing-${index}`}
+                          className="w-full h-32 object-cover rounded border"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* new preview images */}
+                {multiImages.length > 0 && (
+                  <div className="mt-3 grid grid-cols-2 md:grid-cols-4 gap-3">
+                    {multiImages.map((img, index) => (
+                      <div key={index} className="relative">
+                        <img
+                          src={img.preview}
+                          alt={`preview-${index}`}
+                          className="w-full h-32 object-cover rounded border"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
             <Checkbox

@@ -55,6 +55,7 @@ export const ProductCreate = () => {
       const formData = new FormData();
       formData.append("title", data?.title); // Other form fields
       formData.append("description", data?.description); // Other form fields
+      formData.append("specification", data?.specification); // Other form fields
       formData.append("short_description", data?.short_description); // Other form fields
       formData.append("sell_price", data?.sell_price); // Other form fields
       formData.append("category_id", data?.category_id); // Other form fields
@@ -98,6 +99,9 @@ export const ProductCreate = () => {
   };
   const handleQuillChange1 = (content) => {
     setValue("short_description", content); // Update form state
+  };
+  const handleQuillChange2 = (content) => {
+    setValue("specification", content); // Update form state
   };
 
   // fetch category list
@@ -230,7 +234,7 @@ export const ProductCreate = () => {
 
             <div className="mb-6 lg:mb-2">
               <p className="text-sm mb-1 text-gray-500">
-                Product Short Description 
+                Product Short Description
               </p>
               <div className="quill-wrapper   rounded-lg border border-gray-300 overflow-hidden">
                 <ReactQuill
@@ -250,7 +254,7 @@ export const ProductCreate = () => {
             <div className="mb-6 lg:mb-2">
               <p className="text-sm mb-1 text-gray-500">
                 Product Description
-                <span className="text-red-500">*</span>
+                {/* <span className="text-red-500">*</span> */}
               </p>
               <div className="quill-wrapper   rounded-lg border border-gray-300 overflow-hidden">
                 <ReactQuill
@@ -261,6 +265,27 @@ export const ProductCreate = () => {
                 {errors?.description && (
                   <p className="text-red-500 mt-1">
                     {errors.description.message}
+                  </p>
+                )}
+              </div>
+            </div>
+            {/* specification field  */}
+
+            <div className="mb-6 lg:mb-2">
+              <p className="text-sm mb-1 text-gray-500">
+                Product specification
+
+                {/* <span className="text-red-500">*</span> */}
+              </p>
+              <div className="quill-wrapper   rounded-lg border border-gray-300 overflow-hidden">
+                <ReactQuill
+                  onChange={handleQuillChange2}
+                  placeholder="Write your description..."
+                  className="w-full overflow-y-auto h-72 bg-white rounded-md"
+                />
+                {errors?.specification && (
+                  <p className="text-red-500 mt-1">
+                    {errors.specification.message}
                   </p>
                 )}
               </div>
