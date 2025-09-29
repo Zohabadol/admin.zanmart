@@ -82,8 +82,11 @@ export const ProductCreate = () => {
       const response = await NetworkServices.Product.store(formData);
 
       if (response && (response.status === 201 || response?.status === 200)) {
+        // navigate(
+        //   `/dashboard/product-variant/create/${response?.data?.data?.product_id}`
+        // );
         navigate(
-          `/dashboard/product-variant/create/${response?.data?.data?.product_id}`
+          `/dashboard/product`
         );
         setButtonLoading(false);
         return Toastify.Success(response?.data?.message);
@@ -280,7 +283,7 @@ export const ProductCreate = () => {
               <div className="quill-wrapper   rounded-lg border border-gray-300 overflow-hidden">
                 <ReactQuill
                   onChange={handleQuillChange2}
-                  placeholder="Write your description..."
+                  placeholder="Write your specification..."
                   className="w-full overflow-y-auto h-72 bg-white rounded-md"
                 />
                 {errors?.specification && (
