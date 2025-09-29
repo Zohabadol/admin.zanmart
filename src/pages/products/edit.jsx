@@ -28,7 +28,7 @@ export const ProductEdit = () => {
   const [brandList, setBrandList] = useState([]);
   const [product, setProduct] = useState({});
 
-  console.log("product", product);
+  console.log("existingImages", existingImages);
   const {
     control,
 
@@ -42,11 +42,11 @@ export const ProductEdit = () => {
     },
   });
 
-  useEffect(() => {
-    if (product?.gallery_image?.length > 0) {
-      setExistingImages(product.gallery_image);
-    }
-  }, [product]);
+  // useEffect(() => {
+  //   if (product?.gallery_image?.length > 0) {
+  //     setExistingImages(product.gallery_image);
+  //   }
+  // }, [product]);
   //   single product fetch
   const fetchData = useCallback(
     async (product) => {
@@ -55,6 +55,12 @@ export const ProductEdit = () => {
         const response = await NetworkServices.Product.show(id);
         if (response?.status === 200 || response?.status === 201) {
           setProduct(response?.data?.data);
+          const galleryData = response?.data?.data?.gallery_image;
+          setExistingImages(
+            Array.isArray(galleryData)
+              ? galleryData
+              : JSON.parse(galleryData || "[]")
+          );
 
           setLoading(false);
         }
@@ -88,6 +94,7 @@ export const ProductEdit = () => {
       setMultiImages(imagePreviews);
     }
   };
+
   //   fetch category
   const fetchDataForUnit = useCallback(async (category) => {
     try {
@@ -168,7 +175,7 @@ export const ProductEdit = () => {
       formData.append("_method", "PUT"); //
       multiImages &&
         multiImages.forEach((image, index) => {
-          formData.append(`gallery_image[${index}]`, image);
+          formData.append(`gallery_image[${index}]`, image.file);
         });
       const response = await NetworkServices.Product.update(id, formData);
       if (response && (response.status === 201 || response?.status === 200)) {
@@ -394,13 +401,14 @@ export const ProductEdit = () => {
 
                 {/* existing images */}
                 {existingImages.length > 0 && (
-                  <div className="mt-3 grid grid-cols-2 md:grid-cols-4 gap-3">
+                  <div className="mt-3 grid grid-cols-2 md:grid-cols-8 gap-3 ">
                     {existingImages.map((url, index) => (
                       <div key={index} className="relative">
                         <img
-                          src={url}
+                          // src={url}
+                          src={`${process.env.REACT_APP_BASE_API}${url}`}
                           alt={`existing-${index}`}
-                          className="w-full h-32 object-cover rounded border"
+                          className="w-20 h-20 object-cover rounded border"
                         />
                       </div>
                     ))}

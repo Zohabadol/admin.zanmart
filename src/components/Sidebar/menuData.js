@@ -57,21 +57,21 @@ export const menuData = [
     title: "Product",
     icon: <FiBox />,
     childrens: [
-      {
-        title: "Color",
-        icon: <BsPaletteFill />,
-        path: "/dashboard/color",
-      },
-      {
-        title: "Attribute",
-        icon: <MdFormatListBulleted />,
-        path: "/dashboard/attribute",
-      },
-      {
-        title: "Unit",
-        icon: <HiOutlineScale />,
-        path: "/dashboard/unit",
-      },
+      // {
+      //   title: "Color",
+      //   icon: <BsPaletteFill />,
+      //   path: "/dashboard/color",
+      // },
+      // {
+      //   title: "Attribute",
+      //   icon: <MdFormatListBulleted />,
+      //   path: "/dashboard/attribute",
+      // },
+      // {
+      //   title: "Unit",
+      //   icon: <HiOutlineScale />,
+      //   path: "/dashboard/unit",
+      // },
       {
         title: "Product",
         icon: <MdOutlineProductionQuantityLimits />,
