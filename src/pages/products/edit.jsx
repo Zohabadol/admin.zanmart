@@ -143,6 +143,18 @@ export const ProductEdit = () => {
     fetchBrandList();
     fetchDataForUnit();
   }, []);
+
+  const modules = {
+    toolbar: [
+      [{ font: [] }], // ফন্ট change
+      [{ size: ["small", false, "large", "huge"] }], // font size
+      [{ color: [] }, { background: [] }], // text color & background
+      ["bold", "italic", "underline", "strike"], // text style
+      [{ align: [] }], // alignment
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["clean"], // remove formatting
+    ],
+  };
   /* submit reosurce */
   const onSubmit = async (data) => {
     try {
@@ -304,6 +316,7 @@ export const ProductEdit = () => {
                 <ReactQuill
                   onChange={handleQuillChange1}
                   placeholder="Write your description..."
+                  modules={modules}
                   className="w-full overflow-y-auto h-32 bg-white rounded-md"
                   value={product?.short_description}
                 />
@@ -326,6 +339,7 @@ export const ProductEdit = () => {
                 <ReactQuill
                   onChange={handleQuillChange}
                   placeholder="Write your description..."
+                  modules={modules}
                   className="w-full overflow-y-auto h-72 bg-white rounded-md"
                   value={product?.description}
                 />
@@ -348,6 +362,7 @@ export const ProductEdit = () => {
                 <ReactQuill
                   onChange={handleQuillChange2}
                   placeholder="Write your description..."
+                  modules={modules}
                   className="w-full overflow-y-auto h-72 bg-white rounded-md"
                   value={product?.specification}
                 />

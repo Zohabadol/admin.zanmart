@@ -47,6 +47,18 @@ export const ProductCreate = () => {
     }
   };
 
+  const modules = {
+    toolbar: [
+      [{ font: [] }], // ফন্ট change
+      [{ size: ["small", false, "large", "huge"] }], // font size
+      [{ color: [] }, { background: [] }], // text color & background
+      ["bold", "italic", "underline", "strike"], // text style
+      [{ align: [] }], // alignment
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["clean"], // remove formatting
+    ],
+  };
+
   /* submit reosurce */
 
   const onSubmit = async (data) => {
@@ -85,9 +97,7 @@ export const ProductCreate = () => {
         // navigate(
         //   `/dashboard/product-variant/create/${response?.data?.data?.product_id}`
         // );
-        navigate(
-          `/dashboard/product`
-        );
+        navigate(`/dashboard/product`);
         setButtonLoading(false);
         return Toastify.Success(response?.data?.message);
       }
@@ -243,6 +253,7 @@ export const ProductCreate = () => {
                 <ReactQuill
                   onChange={handleQuillChange1}
                   placeholder="Write your description..."
+                  modules={modules}
                   className="w-full overflow-y-auto h-32 bg-white rounded-md"
                 />
                 {errors?.description && (
@@ -263,6 +274,7 @@ export const ProductCreate = () => {
                 <ReactQuill
                   onChange={handleQuillChange}
                   placeholder="Write your description..."
+                  modules={modules}
                   className="w-full overflow-y-auto h-72 bg-white rounded-md"
                 />
                 {errors?.description && (
@@ -277,13 +289,13 @@ export const ProductCreate = () => {
             <div className="mb-6 lg:mb-2">
               <p className="text-sm mb-1 text-gray-500">
                 Product specification
-
                 {/* <span className="text-red-500">*</span> */}
               </p>
               <div className="quill-wrapper   rounded-lg border border-gray-300 overflow-hidden">
                 <ReactQuill
                   onChange={handleQuillChange2}
                   placeholder="Write your specification..."
+                  modules={modules}
                   className="w-full overflow-y-auto h-72 bg-white rounded-md"
                 />
                 {errors?.specification && (
