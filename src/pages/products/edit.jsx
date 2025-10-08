@@ -13,7 +13,7 @@ import {
   TextInput,
 } from "../../components/input";
 import { SkeletonForm } from "../../components/loading/skeleton-table";
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
 import { productField } from "./data";
 
 export const ProductEdit = () => {
@@ -144,15 +144,19 @@ export const ProductEdit = () => {
     fetchDataForUnit();
   }, []);
 
+  const Size = Quill.import("attributors/style/size");
+  Size.whitelist = ["10px", "12px", "14px", "16px", "18px", "24px", "32px"];
+  Quill.register(Size, true);
+
   const modules = {
     toolbar: [
-      [{ font: [] }], // ফন্ট change
-      [{ size: ["small", false, "large", "huge"] }], // font size
+      [{ font: [] }], // font family
+      [{ size: ["10px", "12px", "14px", "16px", "18px", "24px", "32px"] }], // custom size dropdown
       [{ color: [] }, { background: [] }], // text color & background
-      ["bold", "italic", "underline", "strike"], // text style
+      ["bold", "italic", "underline", "strike"], // text styles
       [{ align: [] }], // alignment
       [{ list: "ordered" }, { list: "bullet" }],
-      ["clean"], // remove formatting
+      ["clean"], // clear formatting
     ],
   };
   /* submit reosurce */

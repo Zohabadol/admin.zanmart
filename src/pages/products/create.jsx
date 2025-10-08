@@ -6,9 +6,8 @@ import { PrimaryButton } from "../../components/button";
 import { useCallback, useEffect, useState } from "react";
 import { networkErrorHandeller } from "../../utils/helper";
 import "react-quill/dist/quill.snow.css";
-
 import { SkeletonForm } from "../../components/loading/skeleton-table";
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
 import { SearchDropdownWithSingle } from "../../components/input/selectsearch";
 import {
   Checkbox,
@@ -47,15 +46,30 @@ export const ProductCreate = () => {
     }
   };
 
+  // const modules = {
+  //   toolbar: [
+  //     [{ font: [] }], // ফন্ট change
+  //     [{ size: ["small", false, "large", "huge"] }], // font size
+  //     [{ color: [] }, { background: [] }], // text color & background
+  //     ["bold", "italic", "underline", "strike"], // text style
+  //     [{ align: [] }], // alignment
+  //     [{ list: "ordered" }, { list: "bullet" }],
+  //     ["clean"], // remove formatting
+  //   ],
+  // };
+  const Size = Quill.import("attributors/style/size");
+  Size.whitelist = ["10px", "12px", "14px", "16px", "18px", "24px", "32px"];
+  Quill.register(Size, true);
+
   const modules = {
     toolbar: [
-      [{ font: [] }], // ফন্ট change
-      [{ size: ["small", false, "large", "huge"] }], // font size
+      [{ font: [] }], // font family
+      [{ size: ["10px", "12px", "14px", "16px", "18px", "24px", "32px"] }], // custom size dropdown
       [{ color: [] }, { background: [] }], // text color & background
-      ["bold", "italic", "underline", "strike"], // text style
+      ["bold", "italic", "underline", "strike"], // text styles
       [{ align: [] }], // alignment
       [{ list: "ordered" }, { list: "bullet" }],
-      ["clean"], // remove formatting
+      ["clean"], // clear formatting
     ],
   };
 
